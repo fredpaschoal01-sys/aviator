@@ -186,33 +186,33 @@ class App {
 
 
 
-    static updateDashboard(data) {
+  static updateDashboard(data) {
 
 
-        const statistics =
-            Engine.analyze(data);
-
-
-
-        Dashboard.render(
-            statistics
-        );
+    const statistics =
+        Engine.analyze(data);
 
 
 
-        HistoryView.render(
-            data
-        );
+    Dashboard.render(
+        statistics
+    );
 
 
-
-        console.log(
-            "Estatísticas:",
-            statistics
-        );
+    HistoryView.render(
+        data
+    );
 
 
-    }
+    ChartManager.render(
+        data
+    );
+
+
+    console.log(
+        "Estatísticas:",
+        statistics
+    );
 
 
 }
