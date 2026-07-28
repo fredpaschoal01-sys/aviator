@@ -16,6 +16,7 @@ import ScoreCalculator from "./scoreCalculator.js";
 import SessionManager from "./sessionManager.js";
 import ComparisonEngine from "./comparisonEngine.js";
 import ComparisonView from "./comparisonView.js";
+import ReportGenerator from "./reportGenerator.js";
 
 
 class App {
@@ -370,6 +371,48 @@ class App {
 
 
 
+    static generateReport(statistics, score) {
+
+
+        if (!this.currentSession) {
+
+            return;
+
+        }
+
+
+
+        const report =
+            ReportGenerator.generate(
+
+                this.currentSession,
+
+                statistics,
+
+                score
+
+            );
+
+
+
+        console.log(
+            "Relatório:",
+            report
+        );
+
+
+        console.log(
+            "JSON Relatório:",
+            ReportGenerator.toJSON(report)
+        );
+
+
+    }
+
+
+
+
+
     static updateDashboard(data) {
 
 
@@ -384,7 +427,6 @@ class App {
             ScoreCalculator.calculate(
                 statistics
             );
-
 
 
 
@@ -427,6 +469,16 @@ class App {
 
 
         this.updateComparison();
+
+
+
+        this.generateReport(
+
+            statistics,
+
+            score
+
+        );
 
 
 
