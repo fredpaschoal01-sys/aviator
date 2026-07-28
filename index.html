@@ -110,7 +110,8 @@
     <p id="confiancaIA">Coletando dados...</p>
 
 </div>
-<div class="card">
+
+<div class="card">
     <h2>Volatilidade</h2>
     <span id="volatilidade">--</span>
 </div>
@@ -131,7 +132,15 @@
 </div>
 
 </section>
+<button id="btnImportar">
+📂 Importar Histórico
+</button>
 
+<input
+    type="file"
+    id="arquivoHistorico"
+    accept=".json,.csv"
+    style="display:none">
 <section class="graficos">
 
 <div class="grafico">
@@ -262,6 +271,7 @@ Aviator Analyzer AI © 2026
 </footer>
 
 <script src="storage.js"></script>
+<script src="collector.js"></script>    
 <script src="script.js"></script>
 
 </body>
