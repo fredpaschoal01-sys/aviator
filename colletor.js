@@ -4,15 +4,37 @@ class Collector {
         this.history = [];
     }
 
-    load(data){
-        this.history = data;
+    importJSON(texto) {
+
+        try {
+
+            const dados = JSON.parse(texto);
+
+            this.history = dados;
+
+            console.log("Histórico carregado:", dados);
+
+            alert(`Histórico carregado com ${dados.length} rodadas.`);
+
+            return true;
+
+        } catch (erro) {
+
+            alert("Erro ao ler o arquivo JSON.");
+
+            console.error(erro);
+
+            return false;
+
+        }
+
     }
 
-    getHistory(){
+    getHistory() {
         return this.history;
     }
 
-    clear(){
+    clear() {
         this.history = [];
     }
 
