@@ -13,30 +13,90 @@ import HistoryView from "./historyView.js";
 import ChartManager from "./chartManager.js";
 import HistogramManager from "./histogramManager.js";
 import ScoreCalculator from "./scoreCalculator.js";
+import SessionManager from "./sessionManager.js";
+
 
 class App {
 
 
+    static currentSession = null;
+
+
+
     static init() {
+
+
+        this.createSession();
+
 
         this.bindImport();
 
+
         this.loadSavedHistory();
 
+
+
         DataInput.init(
+
             (value) => {
 
                 this.addMultiplier(value);
 
             }
+
         );
+
 
 
         console.log(
             "Sistema iniciado."
         );
 
+
     }
+
+
+
+
+
+    static createSession() {
+
+
+        const sessions =
+            SessionManager.getSessions();
+
+
+
+        if (sessions.length === 0) {
+
+
+            this.currentSession =
+                SessionManager.createSession();
+
+
+
+        } else {
+
+
+            this.currentSession =
+                sessions[
+                    sessions.length - 1
+                ];
+
+
+        }
+
+
+
+        console.log(
+            "Sessão atual:",
+            this.currentSession
+        );
+
+
+    }
+
+
 
 
 
@@ -49,41 +109,59 @@ class App {
             );
 
 
+
         const input =
             document.getElementById(
                 "arquivoHistorico"
             );
 
 
+
         if (!button || !input) {
+
             return;
+
         }
 
 
 
+
         button.addEventListener(
+
             "click",
+
             () => {
 
                 input.click();
 
             }
+
         );
 
 
 
+
+
         input.addEventListener(
+
             "change",
+
             async (event) => {
+
 
 
                 const file =
                     event.target.files[0];
 
 
+
                 if (!file) {
+
                     return;
+
                 }
+
+
 
 
                 try {
@@ -94,8 +172,10 @@ class App {
 
 
 
+
                     const collectedData =
                         Collector.process(rawData);
+
 
 
 
@@ -105,9 +185,11 @@ class App {
 
 
 
+
                     this.updateDashboard(
                         collectedData
                     );
+
 
 
                 } catch(error) {
@@ -121,11 +203,15 @@ class App {
                 }
 
 
+
             }
+
         );
 
 
     }
+
+
 
 
 
@@ -137,25 +223,55 @@ class App {
 
 
 
+
         history.push({
+
 
             id:
                 history.length + 1,
+
+
 
             timestamp:
                 new Date()
                 .toISOString(),
 
+
+
             multiplier:
                 value
 
+
+
         });
+
+
 
 
 
         StorageManager.save(
             history
         );
+
+
+
+
+
+        if (this.currentSession) {
+
+
+            SessionManager.addResult(
+
+                this.currentSession.id,
+
+                value
+
+            );
+
+
+        }
+
+
 
 
 
@@ -168,6 +284,8 @@ class App {
 
 
 
+
+
     static loadSavedHistory() {
 
 
@@ -176,33 +294,52 @@ class App {
 
 
 
+
         if (history.length > 0) {
+
 
             this.updateDashboard(
                 history
             );
 
+
         }
 
+
     }
+
+
 
 
 
     static updateDashboard(data) {
 
 
+
         const statistics =
             Engine.analyze(data);
 
+
+
+
         const score =
-    ScoreCalculator.calculate(
-        statistics
-    );
+            ScoreCalculator.calculate(
+                statistics
+            );
+
+
+
 
 
         Dashboard.render(
-            statistics
+
+            statistics,
+
+            score
+
         );
+
+
 
 
 
@@ -212,18 +349,36 @@ class App {
 
 
 
+
+
         ChartManager.render(
             data
         );
 
-HistogramManager.render(
-    statistics.distribution
-);
+
+
+
+
+        HistogramManager.render(
+            statistics.distribution
+        );
+
+
+
+
 
         console.log(
             "Estatísticas:",
             statistics
         );
+
+
+
+        console.log(
+            "Score:",
+            score
+        );
+
 
 
     }
@@ -233,11 +388,18 @@ HistogramManager.render(
 
 
 
+
+
 document.addEventListener(
+
     "DOMContentLoaded",
+
     () => {
+
 
         App.init();
 
+
     }
+
 );
