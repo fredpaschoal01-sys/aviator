@@ -83,6 +83,8 @@ function atualizarDashboard(){
 
     atualizarEstatisticas();
 
+    atualizarRadar();
+
 }
 
 function atualizarSequencias(){
@@ -223,11 +225,119 @@ function analisarMomento(){
 
 }
 
+function atualizarRadar(){
+
+    if(historico.length==0)
+        return;
+
+    const ultimos20 = historico.slice(-20);
+
+    const baixos =
+        ultimos20.filter(x=>x.valor<2).length;
+
+    const altos =
+        ultimos20.filter(x=>x.valor>=5).length;
+
+    document.getElementById("voosBaixos").innerHTML =
+        baixos;
+
+    document.getElementById("voosAltos").innerHTML =
+        altos;
+
+    let ultimo=-1;
+
+    for(let i=historico.length-1;i>=0;i--){
+
+        if(historico[i].valor>=10){
+
+            ultimo=
+                historico.length-i;
+
+            break;
+
+        }
+
+    }
+
+    document.getElementById("ultimo10x").innerHTML =
+        ultimo==-1 ? "Nunca" : ultimo+" rodadas";
+
+    const media=
+        mediaArray(
+            historico.map(x=>x.valor)
+        );
+
+    const dp=
+        desvioPadrao(
+            historico.map(x=>x.valor)
+        );
+
+    const indice=
+        dp/media;
+
+    let texto="Baixa";
+
+    if(indice>1)
+        texto="Alta";
+    else if(indice>0.6)
+        texto="Média";
+
+    document.getElementById("volatilidade").innerHTML =
+        texto;
+
+}
+
 function log(msg){
 
     logs.innerHTML+=`<p>${msg}</p>`;
 
     logs.scrollTop=logs.scrollHeight;
+
+}
+
+function calcularOpportunityScore(){
+
+    if(historico.length < 30){
+
+        document.getElementById("opportunityScore").innerHTML = "--";
+
+        document.getElementById("confiancaIA").innerHTML =
+        "Poucos dados";
+
+        return;
+
+    }
+
+    const ultimos20 = historico.slice(-20);
+
+    const baixos = ultimos20.filter(x => x.valor < 2).length;
+
+    let score = 50;
+
+    score += (baixos * 2);
+
+    if(score > 100)
+        score = 100;
+
+    document.getElementById("opportunityScore").innerHTML =
+        score;
+
+    if(historico.length < 100){
+
+        document.getElementById("confiancaIA").innerHTML =
+        "Baixa";
+
+    }else if(historico.length < 1000){
+
+        document.getElementById("confiancaIA").innerHTML =
+        "Média";
+
+    }else{
+
+        document.getElementById("confiancaIA").innerHTML =
+        "Alta";
+
+    }
 
 }
 
