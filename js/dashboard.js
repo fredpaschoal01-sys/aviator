@@ -14,11 +14,14 @@ class Dashboard {
      */
     static updateElement(id, value) {
 
-        const element = document.getElementById(id);
+        const element =
+            document.getElementById(id);
+
 
         if (!element) {
             return;
         }
+
 
         element.textContent = value;
 
@@ -33,9 +36,11 @@ class Dashboard {
      */
     static render(statistics) {
 
+
         if (!statistics) {
             return;
         }
+
 
 
         this.updateElement(
@@ -44,10 +49,12 @@ class Dashboard {
         );
 
 
+
         this.updateElement(
             "maiorMultiplicador",
             `${statistics.max.toFixed(2)}x`
         );
+
 
 
         this.updateElement(
@@ -56,10 +63,12 @@ class Dashboard {
         );
 
 
+
         this.updateElement(
             "voosBaixos",
             statistics.belowTwo
         );
+
 
 
         this.updateElement(
@@ -68,13 +77,49 @@ class Dashboard {
         );
 
 
+
         this.updateElement(
             "desvio",
             statistics.standardDeviation
         );
 
 
+
+        this.updateElement(
+            "ultimoMultiplicador",
+            `${statistics.lastMultiplier.toFixed(2)}x`
+        );
+
+
+
+        this.updateElement(
+            "volatilidade",
+            statistics.volatility
+        );
+
+
+
+        this.updateElement(
+            "sequenciaBaixa",
+            statistics.currentLowSequence
+        );
+
+
+
+        console.log(
+            "Média móvel 10:",
+            statistics.movingAverage10
+        );
+
+
+        console.log(
+            "Média móvel 50:",
+            statistics.movingAverage50
+        );
+
+
     }
+
 
 }
 
