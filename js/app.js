@@ -211,7 +211,9 @@ class App {
             data
         );
 
-
+HistogramManager.render(
+    statistics.distribution
+);
 
         console.log(
             "Estatísticas:",
