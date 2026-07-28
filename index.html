@@ -1,164 +1,218 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Aviator Analyzer AI</title>
+<title>Aviator Analyzer AI</title>
 
-    <meta name="description" content="Painel de análise estatística de multiplicadores">
+<meta name="description" content="Painel de análise estatística de multiplicadores">
 
-    <meta name="author" content="Fred Paschoal">
+<meta name="author" content="Fred Paschoal">
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
+
 <body>
+
 
 <header>
 
-    <div class="logo">
+<div class="logo">
 
-        <h1>Aviator Analyzer AI</h1>
+<h1>Aviator Analyzer AI</h1>
 
-        <p>Análise Estatística em Tempo Real</p>
+<p>Análise Estatística em Tempo Real</p>
 
-    </div>
+</div>
 
 </header>
 
+
+
 <nav>
 
-    <ul>
+<ul>
 
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="#">Estatísticas</a></li>
-        <li><a href="#">IA</a></li>
-        <li><a href="#">Histórico</a></li>
-        <li><a href="#">Configurações</a></li>
+<li><a href="#">Dashboard</a></li>
+<li><a href="#">Estatísticas</a></li>
+<li><a href="#">IA</a></li>
+<li><a href="#">Histórico</a></li>
+<li><a href="#">Configurações</a></li>
 
-    </ul>
+</ul>
 
 </nav>
 
+
+
 <main>
+
+
 
 <section class="cards">
 
-<div class="card">
 
+<div class="card">
 <h2>Total de Rodadas</h2>
-
 <span id="totalRodadas">0</span>
-
 </div>
 
-<div class="card">
 
+<div class="card">
 <h2>Último Multiplicador</h2>
-
 <span id="ultimoMultiplicador">0.00x</span>
-
 </div>
 
-<div class="card">
 
+<div class="card">
 <h2>Maior Multiplicador</h2>
-
 <span id="maiorMultiplicador">0.00x</span>
-
 </div>
 
-<div class="card">
 
+<div class="card">
 <h2>Média Geral</h2>
-
 <span id="mediaGeral">0.00x</span>
-
 </div>
 
-<div class="card">
 
+<div class="card">
 <h2>Sequência abaixo de 2x</h2>
-
 <span id="sequenciaBaixa">0</span>
-
 </div>
 
-<div class="card">
 
+<div class="card">
 <h2>Status IA</h2>
-
 <span id="statusIA">Aguardando dados...</span>
-
 </div>
+
 
 <div class="card">
 
-    <h2>Opportunity Score</h2>
+<h2>Opportunity Score</h2>
 
-    <span id="opportunityScore">0</span>
+<span id="opportunityScore">0</span>
 
-    <p id="confiancaIA">Coletando dados...</p>
+<p id="confiancaIA">
+Coletando dados...
+</p>
 
 </div>
+
+
 
 <div class="card">
-    <h2>Volatilidade</h2>
-    <span id="volatilidade">--</span>
+
+<h2>Volatilidade</h2>
+
+<span id="volatilidade">--</span>
+
 </div>
 
-<div class="card">
-    <h2>Voos &lt; 2x</h2>
-    <span id="voosBaixos">0</span>
-</div>
+
 
 <div class="card">
-    <h2>Voos ≥ 5x</h2>
-    <span id="voosAltos">0</span>
+
+<h2>Voos &lt; 2x</h2>
+
+<span id="voosBaixos">0</span>
+
 </div>
 
+
+
 <div class="card">
-    <h2>Último 10x</h2>
-    <span id="ultimo10x">--</span>
+
+<h2>Voos ≥ 5x</h2>
+
+<span id="voosAltos">0</span>
+
 </div>
+
+
+
+<div class="card">
+
+<h2>Último 10x</h2>
+
+<span id="ultimo10x">--</span>
+
+</div>
+
 
 </section>
+
+
+
+
 <button id="btnImportar">
+
 📂 Importar Histórico
+
 </button>
+
+
+
 
 <div class="entrada-dados">
 
-    <h2>Adicionar Resultado</h2>
 
-    <input
-        type="number"
-        id="novoMultiplicador"
-        placeholder="Ex: 2.50"
-        step="0.01"
-        min="0">
+<h2>Adicionar Resultado</h2>
 
-    <button id="btnAdicionar">
-        Adicionar
-    </button>
+
+<input
+
+type="number"
+
+id="novoMultiplicador"
+
+placeholder="Ex: 2.50"
+
+step="0.01"
+
+min="0">
+
+
+<button id="btnAdicionar">
+
+Adicionar
+
+</button>
+
 
 </div>
-    
+
+
+
+
+
 <input
-    type="file"
-    id="arquivoHistorico"
-    accept=".json,.csv"
-    style="display:none">
+
+type="file"
+
+id="arquivoHistorico"
+
+accept=".json,.csv"
+
+style="display:none">
+
+
+
+
+
 <section class="graficos">
+
 
 <div class="grafico">
 
@@ -168,26 +222,52 @@
 
 </div>
 
+
+
+
+<div class="grafico">
+
+<h2>Distribuição dos Multiplicadores</h2>
+
+<canvas id="graficoDistribuicao"></canvas>
+
+</div>
+
+
+
 </section>
+
+
+
+
+
+
 
 <section class="estatisticas">
 
+
 <h2>Estatísticas</h2>
 
+
 <table>
+
 
 <thead>
 
 <tr>
 
 <th>Indicador</th>
+
 <th>Valor</th>
 
 </tr>
 
 </thead>
 
+
+
 <tbody>
+
 
 <tr>
 
@@ -197,6 +277,8 @@
 
 </tr>
 
+
+
 <tr>
 
 <td>Média Últimas 50</td>
@@ -204,6 +286,8 @@
 <td id="media50">0.00</td>
 
 </tr>
+
+
 
 <tr>
 
@@ -213,6 +297,8 @@
 
 </tr>
 
+
+
 <tr>
 
 <td>Maior Sequência</td>
@@ -220,6 +306,8 @@
 <td id="maiorSequencia">0</td>
 
 </tr>
+
+
 
 <tr>
 
@@ -229,17 +317,29 @@
 
 </tr>
 
+
 </tbody>
+
 
 </table>
 
+
 </section>
+
+
+
+
+
+
 
 <section class="historico">
 
+
 <h2>Últimas Rodadas</h2>
 
+
 <table>
+
 
 <thead>
 
@@ -253,19 +353,33 @@
 
 </tr>
 
+
 </thead>
+
+
 
 <tbody id="historico">
 
+
 </tbody>
+
+
 
 </table>
 
+
 </section>
+
+
+
+
+
 
 <section class="logs">
 
+
 <h2>Logs do Sistema</h2>
+
 
 <div id="logs">
 
@@ -273,9 +387,17 @@
 
 </div>
 
+
 </section>
 
+
+
+
 </main>
+
+
+
+
 
 <footer>
 
@@ -286,7 +408,11 @@ Aviator Analyzer AI © 2026
 </footer>
 
 
+
+
+
 <script type="module" src="./js/app.js"></script>
+
 
 </body>
 
