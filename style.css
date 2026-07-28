@@ -1,0 +1,436 @@
+﻿/* ==========================================
+   AVIATOR ANALYZER AI
+   style.css
+========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:Arial,Helvetica,sans-serif;
+
+    background:#0f172a;
+
+    color:#ffffff;
+
+}
+
+header{
+
+    background:#111827;
+
+    padding:25px;
+
+    border-bottom:1px solid #2c3445;
+
+}
+
+.logo h1{
+
+    font-size:30px;
+
+    color:#4ade80;
+
+}
+
+.logo p{
+
+    margin-top:8px;
+
+    color:#94a3b8;
+
+}
+
+nav{
+
+    background:#1e293b;
+
+}
+
+nav ul{
+
+    list-style:none;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:40px;
+
+    padding:15px;
+
+}
+
+nav a{
+
+    text-decoration:none;
+
+    color:white;
+
+    transition:.3s;
+
+    font-weight:bold;
+
+}
+
+nav a:hover{
+
+    color:#4ade80;
+
+}
+
+main{
+
+    width:95%;
+
+    max-width:1500px;
+
+    margin:auto;
+
+    padding:30px 0;
+
+}
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:20px;
+
+}
+
+.card{
+
+    background:#1e293b;
+
+    padding:25px;
+
+    border-radius:12px;
+
+    box-shadow:0 0 10px rgba(0,0,0,.30);
+
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.card h2{
+
+    font-size:17px;
+
+    color:#cbd5e1;
+
+    margin-bottom:15px;
+
+}
+
+.card span{
+
+    font-size:34px;
+
+    color:#4ade80;
+
+    font-weight:bold;
+
+}
+
+.graficos{
+
+    margin-top:40px;
+
+}
+
+.grafico{
+
+    background:#1e293b;
+
+    padding:20px;
+
+    border-radius:12px;
+
+}
+
+.grafico h2{
+
+    margin-bottom:20px;
+
+}
+
+canvas{
+
+    width:100% !important;
+
+    height:450px !important;
+
+}
+
+.estatisticas{
+
+    margin-top:40px;
+
+}
+
+.estatisticas h2{
+
+    margin-bottom:20px;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+thead{
+
+    background:#334155;
+
+}
+
+th{
+
+    padding:15px;
+
+}
+
+td{
+
+    padding:15px;
+
+}
+
+tbody tr{
+
+    background:#1e293b;
+
+    border-bottom:1px solid #374151;
+
+}
+
+tbody tr:hover{
+
+    background:#253346;
+
+}
+
+.historico{
+
+    margin-top:40px;
+
+}
+
+.historico h2{
+
+    margin-bottom:20px;
+
+}
+
+.logs{
+
+    margin-top:40px;
+
+}
+
+.logs h2{
+
+    margin-bottom:20px;
+
+}
+
+#logs{
+
+    background:#1e293b;
+
+    border-radius:10px;
+
+    padding:20px;
+
+    height:250px;
+
+    overflow:auto;
+
+    border:1px solid #374151;
+
+}
+
+#logs p{
+
+    margin-bottom:10px;
+
+    color:#94a3b8;
+
+    font-size:14px;
+
+}
+
+footer{
+
+    margin-top:60px;
+
+    background:#111827;
+
+    padding:25px;
+
+    text-align:center;
+
+    color:#94a3b8;
+
+}
+
+button{
+
+    background:#22c55e;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    font-weight:bold;
+
+}
+
+button:hover{
+
+    background:#16a34a;
+
+}
+
+input{
+
+    background:#0f172a;
+
+    border:1px solid #334155;
+
+    color:white;
+
+    padding:12px;
+
+    border-radius:8px;
+
+}
+
+input:focus{
+
+    outline:none;
+
+    border-color:#22c55e;
+
+}
+
+.alerta{
+
+    color:#facc15;
+
+    font-weight:bold;
+
+}
+
+.sucesso{
+
+    color:#22c55e;
+
+    font-weight:bold;
+
+}
+
+.erro{
+
+    color:#ef4444;
+
+    font-weight:bold;
+
+}
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#111827;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#4ade80;
+
+    border-radius:10px;
+
+}
+
+@media(max-width:900px){
+
+.cards{
+
+grid-template-columns:1fr;
+
+}
+
+nav ul{
+
+flex-direction:column;
+
+gap:15px;
+
+}
+
+canvas{
+
+height:300px !important;
+
+}
+
+}
+
+@media(max-width:600px){
+
+header{
+
+text-align:center;
+
+}
+
+.logo h1{
+
+font-size:24px;
+
+}
+
+.card span{
+
+font-size:28px;
+
+}
+
+table{
+
+font-size:13px;
+
+}
+
+}

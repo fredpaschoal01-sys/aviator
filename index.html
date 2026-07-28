@@ -1,0 +1,239 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Aviator Analyzer AI</title>
+
+    <meta name="description" content="Painel de análise estatística de multiplicadores">
+
+    <meta name="author" content="Fred Paschoal">
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+
+        <h1>Aviator Analyzer AI</h1>
+
+        <p>Análise Estatística em Tempo Real</p>
+
+    </div>
+
+</header>
+
+<nav>
+
+    <ul>
+
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Estatísticas</a></li>
+        <li><a href="#">IA</a></li>
+        <li><a href="#">Histórico</a></li>
+        <li><a href="#">Configurações</a></li>
+
+    </ul>
+
+</nav>
+
+<main>
+
+<section class="cards">
+
+<div class="card">
+
+<h2>Total de Rodadas</h2>
+
+<span id="totalRodadas">0</span>
+
+</div>
+
+<div class="card">
+
+<h2>Último Multiplicador</h2>
+
+<span id="ultimoMultiplicador">0.00x</span>
+
+</div>
+
+<div class="card">
+
+<h2>Maior Multiplicador</h2>
+
+<span id="maiorMultiplicador">0.00x</span>
+
+</div>
+
+<div class="card">
+
+<h2>Média Geral</h2>
+
+<span id="mediaGeral">0.00x</span>
+
+</div>
+
+<div class="card">
+
+<h2>Sequência abaixo de 2x</h2>
+
+<span id="sequenciaBaixa">0</span>
+
+</div>
+
+<div class="card">
+
+<h2>Status IA</h2>
+
+<span id="statusIA">Aguardando dados...</span>
+
+</div>
+
+</section>
+
+<section class="graficos">
+
+<div class="grafico">
+
+<h2>Multiplicadores</h2>
+
+<canvas id="graficoPrincipal"></canvas>
+
+</div>
+
+</section>
+
+<section class="estatisticas">
+
+<h2>Estatísticas</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Indicador</th>
+<th>Valor</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Média Últimas 20</td>
+
+<td id="media20">0.00</td>
+
+</tr>
+
+<tr>
+
+<td>Média Últimas 50</td>
+
+<td id="media50">0.00</td>
+
+</tr>
+
+<tr>
+
+<td>Desvio Padrão</td>
+
+<td id="desvio">0.00</td>
+
+</tr>
+
+<tr>
+
+<td>Maior Sequência</td>
+
+<td id="maiorSequencia">0</td>
+
+</tr>
+
+<tr>
+
+<td>Probabilidade Estatística</td>
+
+<td id="probabilidade">0%</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+<section class="historico">
+
+<h2>Últimas Rodadas</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Horário</th>
+
+<th>Multiplicador</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody id="historico">
+
+</tbody>
+
+</table>
+
+</section>
+
+<section class="logs">
+
+<h2>Logs do Sistema</h2>
+
+<div id="logs">
+
+<p>Sistema iniciado.</p>
+
+</div>
+
+</section>
+
+</main>
+
+<footer>
+
+<p>
+
+Aviator Analyzer AI © 2026
+
+</p>
+
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
