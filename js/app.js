@@ -10,7 +10,7 @@ import Importer from "./importer.js";
 import StorageManager from "./storageManager.js";
 import DataInput from "./dataInput.js";
 import HistoryView from "./historyView.js";
-
+import ChartManager from "./chartManager.js";
 
 class App {
 
