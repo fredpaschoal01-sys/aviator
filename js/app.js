@@ -12,6 +12,7 @@ import DataInput from "./dataInput.js";
 import HistoryView from "./historyView.js";
 import ChartManager from "./chartManager.js";
 
+
 class App {
 
 
@@ -186,33 +187,39 @@ class App {
 
 
 
-  static updateDashboard(data) {
+    static updateDashboard(data) {
 
 
-    const statistics =
-        Engine.analyze(data);
+        const statistics =
+            Engine.analyze(data);
 
 
 
-    Dashboard.render(
-        statistics
-    );
+        Dashboard.render(
+            statistics
+        );
 
 
-    HistoryView.render(
-        data
-    );
+
+        HistoryView.render(
+            data
+        );
 
 
-    ChartManager.render(
-        data
-    );
+
+        ChartManager.render(
+            data
+        );
 
 
-    console.log(
-        "Estatísticas:",
-        statistics
-    );
+
+        console.log(
+            "Estatísticas:",
+            statistics
+        );
+
+
+    }
 
 
 }
