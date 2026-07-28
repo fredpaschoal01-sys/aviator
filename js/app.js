@@ -6,39 +6,21 @@
 import Collector from "./collector.js";
 import Engine from "./engine.js";
 import Dashboard from "./dashboard.js";
+import Importer from "./importer.js";
 
 
 class App {
 
 
     /**
-     * Inicializa a aplicação.
+     * Inicializa aplicação.
      */
     static init() {
 
-        const history = this.loadDemoData();
-
-
-        const collectedData =
-            Collector.process(history);
-
-
-        const statistics =
-            Engine.analyze(collectedData);
-
-
-        Dashboard.render(statistics);
-
+        this.bindEvents();
 
         console.log(
-            "Dados processados:",
-            collectedData
-        );
-
-
-        console.log(
-            "Estatísticas:",
-            statistics
+            "Sistema iniciado."
         );
 
     }
@@ -46,34 +28,117 @@ class App {
 
 
     /**
-     * Dados temporários para teste.
-     *
-     * Futuramente será substituído
-     * por importação JSON/CSV.
-     *
-     * @returns {Array}
+     * Conecta eventos da interface.
      */
-    static loadDemoData() {
+    static bindEvents() {
 
-        return [
 
-            1.20,
-            1.85,
-            2.40,
-            3.10,
-            1.05,
-            5.80,
-            2.15,
-            10.50,
-            1.40,
-            3.75
+        const button =
+            document.getElementById(
+                "btnImportar"
+            );
 
-        ];
+
+        const input =
+            document.getElementById(
+                "arquivoHistorico"
+            );
+
+
+        if (!button || !input) {
+
+            console.error(
+                "Elementos de importação não encontrados."
+            );
+
+            return;
+
+        }
+
+
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                input.click();
+
+            }
+        );
+
+
+
+        input.addEventListener(
+            "change",
+            async (event) => {
+
+
+                const file =
+                    event.target.files[0];
+
+
+                if (!file) {
+                    return;
+                }
+
+
+                try {
+
+
+                    const rawData =
+                        await Importer.import(file);
+
+
+
+                    const collectedData =
+                        Collector.process(rawData);
+
+
+
+                    const statistics =
+                        Engine.analyze(
+                            collectedData
+                        );
+
+
+
+                    Dashboard.render(
+                        statistics
+                    );
+
+
+                    console.log(
+                        "Histórico importado:",
+                        collectedData
+                    );
+
+
+                    console.log(
+                        "Estatísticas:",
+                        statistics
+                    );
+
+
+                } catch (error) {
+
+
+                    console.error(
+                        error.message
+                    );
+
+
+                }
+
+
+            }
+        );
+
 
     }
 
 
 }
+
 
 
 document.addEventListener(
