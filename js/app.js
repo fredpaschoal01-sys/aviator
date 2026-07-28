@@ -9,6 +9,7 @@ import Dashboard from "./dashboard.js";
 import Importer from "./importer.js";
 import StorageManager from "./storageManager.js";
 import DataInput from "./dataInput.js";
+import HistoryView from "./historyView.js";
 
 
 class App {
@@ -90,13 +91,16 @@ class App {
                         await Importer.import(file);
 
 
+
                     const collectedData =
                         Collector.process(rawData);
+
 
 
                     StorageManager.save(
                         collectedData
                     );
+
 
 
                     this.updateDashboard(
@@ -195,10 +199,18 @@ class App {
         );
 
 
+
+        HistoryView.render(
+            data
+        );
+
+
+
         console.log(
             "Estatísticas:",
             statistics
         );
+
 
     }
 
