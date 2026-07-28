@@ -194,6 +194,10 @@ class App {
         const statistics =
             Engine.analyze(data);
 
+        const score =
+    ScoreCalculator.calculate(
+        statistics
+    );
 
 
         Dashboard.render(
