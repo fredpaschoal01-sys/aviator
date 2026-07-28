@@ -17,6 +17,7 @@ import SessionManager from "./sessionManager.js";
 import ComparisonEngine from "./comparisonEngine.js";
 import ComparisonView from "./comparisonView.js";
 import ReportGenerator from "./reportGenerator.js";
+import AIAnalyzer from "./aiAnalyzer.js";
 
 
 class App {
