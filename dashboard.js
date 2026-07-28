@@ -1,26 +1,33 @@
-class Dashboard {
+class Engine{
 
-    atualizar(estatisticas){
+    calcular(history){
 
-        if(!estatisticas) return;
+        if(history.length===0){
 
-        document.getElementById("totalRodadas").textContent =
-            estatisticas.total;
+            return null;
 
-        document.getElementById("mediaGeral").textContent =
-            estatisticas.media.toFixed(2) + "x";
+        }
 
-        document.getElementById("maiorMultiplicador").textContent =
-            estatisticas.maior.toFixed(2) + "x";
+        const valores=history.map(item=>item.multiplier);
 
-        document.getElementById("voosBaixos").textContent =
-            estatisticas.voosBaixos;
+        return{
 
-        document.getElementById("voosAltos").textContent =
-            estatisticas.voosAltos;
+            total:valores.length,
+
+            media:valores.reduce((a,b)=>a+b,0)/valores.length,
+
+            maior:Math.max(...valores),
+
+            menor:Math.min(...valores),
+
+            voosBaixos:valores.filter(v=>v<2).length,
+
+            voosAltos:valores.filter(v=>v>=5).length
+
+        };
 
     }
 
 }
 
-window.dashboard = new Dashboard();
+window.engine=new Engine();
