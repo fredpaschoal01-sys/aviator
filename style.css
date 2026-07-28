@@ -462,3 +462,27 @@ font-size:13px;
     font-weight:bold;
 
 }
+
+.ai-box{
+
+    min-height:120px;
+
+    padding:15px;
+
+    margin-top:10px;
+
+    border-radius:10px;
+
+    background:#111;
+
+    color:#00ff99;
+
+    border:1px solid #333;
+
+    white-space:pre-wrap;
+
+    line-height:1.6;
+
+    font-size:14px;
+
+}
