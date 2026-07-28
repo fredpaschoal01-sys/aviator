@@ -12,6 +12,7 @@ import DataInput from "./dataInput.js";
 import HistoryView from "./historyView.js";
 import ChartManager from "./chartManager.js";
 import HistogramManager from "./histogramManager.js";
+import ScoreCalculator from "./scoreCalculator.js";
 
 class App {
 
