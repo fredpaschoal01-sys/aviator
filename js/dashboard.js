@@ -1,13 +1,13 @@
 /**
  * Dashboard
- * Responsável por atualizar os componentes visuais da aplicação.
+ * Responsável por atualizar os componentes visuais.
  */
 
 class Dashboard {
 
 
     /**
-     * Atualiza um elemento HTML pelo ID.
+     * Atualiza elemento pelo ID.
      *
      * @param {string} id
      * @param {string|number} value
@@ -25,8 +25,9 @@ class Dashboard {
     }
 
 
+
     /**
-     * Renderiza as estatísticas no dashboard.
+     * Renderiza estatísticas no dashboard.
      *
      * @param {Object} statistics
      */
@@ -38,48 +39,42 @@ class Dashboard {
 
 
         this.updateElement(
-            "totalRounds",
+            "totalRodadas",
             statistics.total
         );
 
 
         this.updateElement(
-            "averageMultiplier",
-            `${statistics.average}x`
+            "maiorMultiplicador",
+            `${statistics.max.toFixed(2)}x`
         );
 
 
         this.updateElement(
-            "highestMultiplier",
-            `${statistics.max}x`
+            "mediaGeral",
+            `${statistics.average.toFixed(2)}x`
         );
 
 
         this.updateElement(
-            "lowestMultiplier",
-            `${statistics.min}x`
-        );
-
-
-        this.updateElement(
-            "standardDeviation",
-            statistics.standardDeviation
-        );
-
-
-        this.updateElement(
-            "belowTwo",
+            "voosBaixos",
             statistics.belowTwo
         );
 
 
         this.updateElement(
-            "aboveFive",
+            "voosAltos",
             statistics.aboveFive
         );
 
-    }
 
+        this.updateElement(
+            "desvio",
+            statistics.standardDeviation
+        );
+
+
+    }
 
 }
 
