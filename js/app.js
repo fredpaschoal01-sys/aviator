@@ -441,6 +441,16 @@ class App {
 
         );
 
+        AIAnalyzer.analyze(statistics)
+    .then(text => {
+
+        const box = document.getElementById("statusIA");
+
+        if (box) {
+            box.textContent = text;
+        }
+
+    });
 
 
 
