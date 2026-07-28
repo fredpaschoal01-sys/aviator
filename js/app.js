@@ -7,6 +7,7 @@ import Collector from "./collector.js";
 import Engine from "./engine.js";
 import Dashboard from "./dashboard.js";
 import Importer from "./importer.js";
+import StorageManager from "./storageManager.js";
 
 
 class App {
@@ -18,6 +19,8 @@ class App {
     static init() {
 
         this.bindEvents();
+
+        this.loadSavedHistory();
 
         console.log(
             "Sistema iniciado."
@@ -95,27 +98,21 @@ class App {
 
 
 
-                    const statistics =
-                        Engine.analyze(
-                            collectedData
-                        );
-
-
-
-                    Dashboard.render(
-                        statistics
-                    );
-
-
-                    console.log(
-                        "Histórico importado:",
+                    StorageManager.save(
                         collectedData
                     );
 
 
+
+                    this.updateDashboard(
+                        collectedData
+                    );
+
+
+
                     console.log(
-                        "Estatísticas:",
-                        statistics
+                        "Histórico salvo:",
+                        collectedData
                     );
 
 
@@ -133,6 +130,67 @@ class App {
             }
         );
 
+
+    }
+
+
+
+    /**
+     * Carrega histórico salvo.
+     */
+    static loadSavedHistory() {
+
+
+        const history =
+            StorageManager.load();
+
+
+
+        if (history.length === 0) {
+
+            return;
+
+        }
+
+
+
+        this.updateDashboard(
+            history
+        );
+
+
+        console.log(
+            "Histórico carregado:",
+            history
+        );
+
+    }
+
+
+
+    /**
+     * Executa análise e atualiza tela.
+     *
+     * @param {Array} data
+     */
+    static updateDashboard(data) {
+
+
+        const statistics =
+            Engine.analyze(data);
+
+
+
+        Dashboard.render(
+            statistics
+        );
+
+
+
+        console.log(
+            "Estatísticas:",
+            statistics
+        );
 
     }
 
