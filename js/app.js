@@ -8,19 +8,26 @@ import Engine from "./engine.js";
 import Dashboard from "./dashboard.js";
 import Importer from "./importer.js";
 import StorageManager from "./storageManager.js";
+import DataInput from "./dataInput.js";
 
 
 class App {
 
 
-    /**
-     * Inicializa aplicação.
-     */
     static init() {
 
-        this.bindEvents();
+        this.bindImport();
 
         this.loadSavedHistory();
+
+        DataInput.init(
+            (value) => {
+
+                this.addMultiplier(value);
+
+            }
+        );
+
 
         console.log(
             "Sistema iniciado."
@@ -30,10 +37,7 @@ class App {
 
 
 
-    /**
-     * Conecta eventos da interface.
-     */
-    static bindEvents() {
+    static bindImport() {
 
 
         const button =
@@ -49,13 +53,7 @@ class App {
 
 
         if (!button || !input) {
-
-            console.error(
-                "Elementos de importação não encontrados."
-            );
-
             return;
-
         }
 
 
@@ -92,10 +90,8 @@ class App {
                         await Importer.import(file);
 
 
-
                     const collectedData =
                         Collector.process(rawData);
-
 
 
                     StorageManager.save(
@@ -103,20 +99,12 @@ class App {
                     );
 
 
-
                     this.updateDashboard(
                         collectedData
                     );
 
 
-
-                    console.log(
-                        "Histórico salvo:",
-                        collectedData
-                    );
-
-
-                } catch (error) {
+                } catch(error) {
 
 
                     console.error(
@@ -135,10 +123,7 @@ class App {
 
 
 
-    /**
-     * Carrega histórico salvo.
-     */
-    static loadSavedHistory() {
+    static addMultiplier(value) {
 
 
         const history =
@@ -146,11 +131,25 @@ class App {
 
 
 
-        if (history.length === 0) {
+        history.push({
 
-            return;
+            id:
+                history.length + 1,
 
-        }
+            timestamp:
+                new Date()
+                .toISOString(),
+
+            multiplier:
+                value
+
+        });
+
+
+
+        StorageManager.save(
+            history
+        );
 
 
 
@@ -159,20 +158,30 @@ class App {
         );
 
 
-        console.log(
-            "Histórico carregado:",
-            history
-        );
+    }
+
+
+
+    static loadSavedHistory() {
+
+
+        const history =
+            StorageManager.load();
+
+
+
+        if (history.length > 0) {
+
+            this.updateDashboard(
+                history
+            );
+
+        }
 
     }
 
 
 
-    /**
-     * Executa análise e atualiza tela.
-     *
-     * @param {Array} data
-     */
     static updateDashboard(data) {
 
 
@@ -184,7 +193,6 @@ class App {
         Dashboard.render(
             statistics
         );
-
 
 
         console.log(
