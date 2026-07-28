@@ -1,362 +1,41 @@
-// =============================
-// AVIATOR ANALYZER AI
-// script.js
-// =============================
+const btnImportar =
+document.getElementById("btnImportar");
 
-let historico = [];
+const arquivoHistorico =
+document.getElementById("arquivoHistorico");
 
-const totalRodadas = document.getElementById("totalRodadas");
-const ultimoMultiplicador = document.getElementById("ultimoMultiplicador");
-const maiorMultiplicador = document.getElementById("maiorMultiplicador");
-const mediaGeral = document.getElementById("mediaGeral");
-const sequenciaBaixa = document.getElementById("sequenciaBaixa");
-const statusIA = document.getElementById("statusIA");
+btnImportar.addEventListener("click",()=>{
 
-const media20 = document.getElementById("media20");
-const media50 = document.getElementById("media50");
-const desvio = document.getElementById("desvio");
-const maiorSequencia = document.getElementById("maiorSequencia");
-const probabilidade = document.getElementById("probabilidade");
+    arquivoHistorico.click();
 
-const historicoTabela = document.getElementById("historico");
-const logs = document.getElementById("logs");
-
-const ctx = document.getElementById("graficoPrincipal").getContext("2d");
-
-const grafico = new Chart(ctx, {
-    type: "line",
-    data: {
-        labels: [],
-        datasets: [{
-            label: "Multiplicadores",
-            data: [],
-            borderWidth: 2,
-            tension: 0.25
-        }]
-    },
-    options: {
-        responsive: true,
-        animation: false
-    }
 });
 
-function adicionarRodada(valor){
+arquivoHistorico.addEventListener("change",(e)=>{
 
-    const agora = new Date().toLocaleTimeString();
+    const arquivo=e.target.files[0];
 
-    historico.push({
-        hora: agora,
-        valor: valor
-    });
-    salvarHistorico();
-    atualizarDashboard();
-}
+    if(!arquivo)return;
 
-function atualizarDashboard(){
+    const leitor=new FileReader();
 
-    totalRodadas.innerHTML = historico.length;
+    leitor.onload=(evento)=>{
 
-    if(historico.length===0)
-        return;
+        if(collector.importJSON(evento.target.result)){
 
-    const ultimo = historico[historico.length-1];
+            const resultado=
 
-    ultimoMultiplicador.innerHTML =
-        ultimo.valor.toFixed(2)+"x";
+            engine.calcular(
 
-    const maior = Math.max(...historico.map(x=>x.valor));
+                collector.getHistory()
 
-    maiorMultiplicador.innerHTML =
-        maior.toFixed(2)+"x";
+            );
 
-    const media =
-        historico.reduce((s,x)=>s+x.valor,0)/historico.length;
-
-    mediaGeral.innerHTML =
-        media.toFixed(2)+"x";
-
-    atualizarSequencias();
-
-    atualizarTabela();
-
-    atualizarGrafico();
-
-    atualizarEstatisticas();
-
-    atualizarRadar();
-
-}
-
-function atualizarSequencias(){
-
-    let atual=0;
-    let maior=0;
-
-    for(let i=0;i<historico.length;i++){
-
-        if(historico[i].valor<2){
-
-            atual++;
-
-            if(atual>maior)
-                maior=atual;
-
-        }else{
-
-            atual=0;
+            dashboard.atualizar(resultado);
 
         }
 
-    }
+    };
 
-    sequenciaBaixa.innerHTML=atual;
-    maiorSequencia.innerHTML=maior;
+    leitor.readAsText(arquivo);
 
-}
-
-function atualizarTabela(){
-
-    historicoTabela.innerHTML="";
-
-    const ultimos=historico.slice(-20).reverse();
-
-    ultimos.forEach(item=>{
-
-        const tr=document.createElement("tr");
-
-        tr.innerHTML=`
-            <td>${item.hora}</td>
-            <td>${item.valor.toFixed(2)}x</td>
-            <td>${item.valor<2?"Baixo":"Alto"}</td>
-        `;
-
-        historicoTabela.appendChild(tr);
-
-    });
-
-}
-
-function atualizarGrafico(){
-
-    grafico.data.labels=
-        historico.map((x,i)=>i+1);
-
-    grafico.data.datasets[0].data=
-        historico.map(x=>x.valor);
-
-    grafico.update();
-
-}
-
-function atualizarEstatisticas(){
-
-    const ult20=
-        historico.slice(-20).map(x=>x.valor);
-
-    const ult50=
-        historico.slice(-50).map(x=>x.valor);
-
-    media20.innerHTML=
-        mediaArray(ult20).toFixed(2);
-
-    media50.innerHTML=
-        mediaArray(ult50).toFixed(2);
-
-    desvio.innerHTML=
-        desvioPadrao(
-            historico.map(x=>x.valor)
-        ).toFixed(2);
-
-    const acima5=
-        historico.filter(x=>x.valor>=5).length;
-
-    const perc=
-        (acima5/historico.length)*100;
-
-    probabilidade.innerHTML=
-        perc.toFixed(1)+"%";
-
-    statusIA.innerHTML=
-        analisarMomento();
-
-}
-
-function mediaArray(arr){
-
-    if(arr.length===0)
-        return 0;
-
-    return arr.reduce((a,b)=>a+b,0)/arr.length;
-
-}
-
-function desvioPadrao(arr){
-
-    if(arr.length===0)
-        return 0;
-
-    const media=mediaArray(arr);
-
-    const variancia=
-        arr.reduce((s,x)=>s+Math.pow(x-media,2),0)/arr.length;
-
-    return Math.sqrt(variancia);
-
-}
-
-function analisarMomento(){
-
-    if(historico.length<20)
-        return "Coletando dados";
-
-    const ultimos=
-        historico.slice(-10);
-
-    const baixos=
-        ultimos.filter(x=>x.valor<2).length;
-
-    if(baixos>=8)
-        return "Alta concentração de voos baixos";
-
-    if(baixos<=2)
-        return "Maioria acima de 2x";
-
-    return "Distribuição dentro da média";
-
-}
-
-function atualizarRadar(){
-
-    if(historico.length==0)
-        return;
-
-    const ultimos20 = historico.slice(-20);
-
-    const baixos =
-        ultimos20.filter(x=>x.valor<2).length;
-
-    const altos =
-        ultimos20.filter(x=>x.valor>=5).length;
-
-    document.getElementById("voosBaixos").innerHTML =
-        baixos;
-
-    document.getElementById("voosAltos").innerHTML =
-        altos;
-
-    let ultimo=-1;
-
-    for(let i=historico.length-1;i>=0;i--){
-
-        if(historico[i].valor>=10){
-
-            ultimo=
-                historico.length-i;
-
-            break;
-
-        }
-
-    }
-
-    document.getElementById("ultimo10x").innerHTML =
-        ultimo==-1 ? "Nunca" : ultimo+" rodadas";
-
-    const media=
-        mediaArray(
-            historico.map(x=>x.valor)
-        );
-
-    const dp=
-        desvioPadrao(
-            historico.map(x=>x.valor)
-        );
-
-    const indice=
-        dp/media;
-
-    let texto="Baixa";
-
-    if(indice>1)
-        texto="Alta";
-    else if(indice>0.6)
-        texto="Média";
-
-    document.getElementById("volatilidade").innerHTML =
-        texto;
-
-}
-
-function log(msg){
-
-    logs.innerHTML+=`<p>${msg}</p>`;
-
-    logs.scrollTop=logs.scrollHeight;
-
-}
-
-function calcularOpportunityScore(){
-
-    if(historico.length < 30){
-
-        document.getElementById("opportunityScore").innerHTML = "--";
-
-        document.getElementById("confiancaIA").innerHTML =
-        "Poucos dados";
-
-        return;
-
-    }
-
-    const ultimos20 = historico.slice(-20);
-
-    const baixos = ultimos20.filter(x => x.valor < 2).length;
-
-    let score = 50;
-
-    score += (baixos * 2);
-
-    if(score > 100)
-        score = 100;
-
-    document.getElementById("opportunityScore").innerHTML =
-        score;
-
-    if(historico.length < 100){
-
-        document.getElementById("confiancaIA").innerHTML =
-        "Baixa";
-
-    }else if(historico.length < 1000){
-
-        document.getElementById("confiancaIA").innerHTML =
-        "Média";
-
-    }else{
-
-        document.getElementById("confiancaIA").innerHTML =
-        "Alta";
-
-    }
-
-}
-
-// =========================
-// DEMONSTRAÇÃO
-// =========================
-
-// Apenas para testar a interface.
-// Depois será substituído pelos dados do backend.
-
-setInterval(()=>{
-
-    const valor=
-        Number((Math.random()*10+1).toFixed(2));
-
-    adicionarRodada(valor);
-
-    log("Nova rodada registrada: "+valor+"x");
-
-},3000);
-
-carregarHistorico();
+});
