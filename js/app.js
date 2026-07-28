@@ -14,6 +14,8 @@ import ChartManager from "./chartManager.js";
 import HistogramManager from "./histogramManager.js";
 import ScoreCalculator from "./scoreCalculator.js";
 import SessionManager from "./sessionManager.js";
+import ComparisonEngine from "./comparisonEngine.js";
+import ComparisonView from "./comparisonView.js";
 
 
 class App {
@@ -312,6 +314,62 @@ class App {
 
 
 
+    static updateComparison() {
+
+
+        const sessions =
+            SessionManager.getSessions();
+
+
+
+        if (sessions.length < 2) {
+
+            return;
+
+        }
+
+
+
+        const sessionA =
+            sessions[
+                sessions.length - 2
+            ];
+
+
+
+        const sessionB =
+            sessions[
+                sessions.length - 1
+            ];
+
+
+
+        const comparison =
+            ComparisonEngine.compare(
+                sessionA,
+                sessionB
+            );
+
+
+
+        ComparisonView.render(
+            comparison
+        );
+
+
+
+        console.log(
+            "Comparação:",
+            comparison
+        );
+
+
+    }
+
+
+
+
+
     static updateDashboard(data) {
 
 
@@ -326,6 +384,7 @@ class App {
             ScoreCalculator.calculate(
                 statistics
             );
+
 
 
 
@@ -362,6 +421,12 @@ class App {
         HistogramManager.render(
             statistics.distribution
         );
+
+
+
+
+
+        this.updateComparison();
 
 
 
