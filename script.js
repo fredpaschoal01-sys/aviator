@@ -48,7 +48,7 @@ function adicionarRodada(valor){
         hora: agora,
         valor: valor
     });
-
+    salvarHistorico();
     atualizarDashboard();
 }
 
@@ -248,3 +248,5 @@ setInterval(()=>{
     log("Nova rodada registrada: "+valor+"x");
 
 },3000);
+
+carregarHistorico();
