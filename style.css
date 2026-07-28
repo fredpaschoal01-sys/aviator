@@ -434,3 +434,31 @@ font-size:13px;
 }
 
 }
+
+.controles{
+
+    display:flex;
+
+    gap:15px;
+
+    justify-content:center;
+
+    margin:25px;
+
+}
+
+.controles button{
+
+    padding:12px 24px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+}
