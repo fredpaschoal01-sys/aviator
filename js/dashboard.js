@@ -14,18 +14,25 @@ class Dashboard {
      */
     static updateElement(id, value) {
 
+
         const element =
             document.getElementById(id);
 
 
+
         if (!element) {
+
             return;
+
         }
+
 
 
         element.textContent = value;
 
+
     }
+
 
 
 
@@ -33,13 +40,17 @@ class Dashboard {
      * Renderiza estatísticas no dashboard.
      *
      * @param {Object} statistics
+     * @param {Object} score
      */
-    static render(statistics) {
+    static render(statistics, score) {
 
 
         if (!statistics) {
+
             return;
+
         }
+
 
 
 
@@ -50,10 +61,14 @@ class Dashboard {
 
 
 
+
+
         this.updateElement(
             "maiorMultiplicador",
             `${statistics.max.toFixed(2)}x`
         );
+
+
 
 
 
@@ -64,10 +79,14 @@ class Dashboard {
 
 
 
+
+
         this.updateElement(
             "voosBaixos",
             statistics.belowTwo
         );
+
+
 
 
 
@@ -78,10 +97,14 @@ class Dashboard {
 
 
 
+
+
         this.updateElement(
             "desvio",
             statistics.standardDeviation
         );
+
+
 
 
 
@@ -92,10 +115,14 @@ class Dashboard {
 
 
 
+
+
         this.updateElement(
             "volatilidade",
             statistics.volatility
         );
+
+
 
 
 
@@ -106,16 +133,48 @@ class Dashboard {
 
 
 
+
+
+        /**
+         * Opportunity Score
+         */
+
+        if (score) {
+
+
+            this.updateElement(
+                "opportunityScore",
+                score.score
+            );
+
+
+
+            this.updateElement(
+                "confiancaIA",
+                score.description
+            );
+
+
+        }
+
+
+
+
+
         console.log(
             "Média móvel 10:",
             statistics.movingAverage10
         );
 
 
+
+
+
         console.log(
             "Média móvel 50:",
             statistics.movingAverage50
         );
+
 
 
     }
