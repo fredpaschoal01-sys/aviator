@@ -2,23 +2,22 @@
  * history-reader.js
  * Aviator Vision AI
  *
- * Primeira etapa:
  * Captura apenas a área do Histórico da Ronda.
- *
- * Não faz OCR ainda.
+ * Envia aviso para o OCR quando o recorte estiver pronto.
  */
 
+
 class HistoryReader {
+
 
     static canvas = null;
     static ctx = null;
 
 
+
     /*
-     * Ajuste inicial para tela 1366x768
-     *
-     * Vamos testar a área do histórico.
-     * Depois refinamos se necessário.
+     * Área do histórico
+     * Ajustada para tela 1366x768
      */
 
     static region = {
@@ -34,12 +33,16 @@ class HistoryReader {
     };
 
 
+
+
     static init(){
+
 
         this.canvas =
             document.getElementById(
                 "historyCanvas"
             );
+
 
 
         if(!this.canvas){
@@ -53,10 +56,12 @@ class HistoryReader {
         }
 
 
+
         this.ctx =
             this.canvas.getContext(
                 "2d"
             );
+
 
 
         document.addEventListener(
@@ -65,31 +70,39 @@ class HistoryReader {
 
             (event)=>{
 
+
                 this.process(
                     event.detail
                 );
+
 
             }
 
         );
 
-        document.dispatchEvent(
 
-    new Event(
-        "historicoAtualizado"
-    )
-
-);
 
         console.log(
             "HistoryReader iniciado"
         );
 
+
     }
 
 
 
+
+
     static process(frame){
+
+
+
+        if(!frame){
+
+            return;
+
+        }
+
 
 
         const tempCanvas =
@@ -98,14 +111,17 @@ class HistoryReader {
             );
 
 
+
         const tempCtx =
             tempCanvas.getContext(
                 "2d"
             );
 
 
+
         tempCanvas.width =
             frame.width;
+
 
 
         tempCanvas.height =
@@ -113,11 +129,18 @@ class HistoryReader {
 
 
 
+
         tempCtx.putImageData(
+
             frame,
+
             0,
+
             0
+
         );
+
+
 
 
 
@@ -126,8 +149,10 @@ class HistoryReader {
 
 
 
+
         this.canvas.width =
             r.width;
+
 
 
         this.canvas.height =
@@ -135,33 +160,81 @@ class HistoryReader {
 
 
 
-        this.ctx.drawImage(
 
-            tempCanvas,
 
-            r.x,
-            r.y,
-
-            r.width,
-            r.height,
+        this.ctx.clearRect(
 
             0,
+
             0,
 
             r.width,
+
             r.height
 
         );
 
 
+
+
+
+        this.ctx.drawImage(
+
+
+            tempCanvas,
+
+
+            r.x,
+
+            r.y,
+
+
+            r.width,
+
+            r.height,
+
+
+            0,
+
+            0,
+
+
+            r.width,
+
+            r.height
+
+
+        );
+
+
+
+
+        /*
+         * Avisamos o OCR que
+         * o histórico foi atualizado
+         */
+
+        document.dispatchEvent(
+
+            new Event(
+                "historicoAtualizado"
+            )
+
+        );
+
+
+
     }
+
 
 
 }
 
 
+
 window.HistoryReader =
     HistoryReader;
+
 
 
 
@@ -171,7 +244,9 @@ document.addEventListener(
 
     ()=>{
 
+
         HistoryReader.init();
+
 
     }
 
