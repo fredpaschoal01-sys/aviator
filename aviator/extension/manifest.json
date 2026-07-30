@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "Aviator Analyzer AI",
+  "description": "Captura automaticamente o histórico do Aviator",
+  "version": "1.0.0",
+
+  "permissions": [
+    "storage"
+  ],
+
+  "host_permissions": [
+    "https://betgo.bet.br/*"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://betgo.bet.br/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Aviator Analyzer AI"
+  },
+
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}
