@@ -73,6 +73,13 @@ class HistoryReader {
 
         );
 
+        document.dispatchEvent(
+
+    new Event(
+        "historicoAtualizado"
+    )
+
+);
 
         console.log(
             "HistoryReader iniciado"
