@@ -2,8 +2,9 @@
  * history-reader.js
  * Aviator Vision AI
  *
- * Captura apenas a área do Histórico da Ronda.
- * Envia aviso para o OCR quando o recorte estiver pronto.
+ * Captura a área do Histórico da Ronda.
+ * Prepara imagem para OCR.
+ * Versão com diagnóstico.
  */
 
 
@@ -16,8 +17,8 @@ class HistoryReader {
 
 
     /*
-     * Área do histórico
-     * Ajustada para tela 1366x768
+     * Região inicial para tela 1366x768
+     * Ajustaremos depois se necessário.
      */
 
     static region = {
@@ -38,6 +39,12 @@ class HistoryReader {
     static init(){
 
 
+        console.log(
+            "HistoryReader iniciando..."
+        );
+
+
+
         this.canvas =
             document.getElementById(
                 "historyCanvas"
@@ -47,8 +54,8 @@ class HistoryReader {
 
         if(!this.canvas){
 
-            console.log(
-                "historyCanvas não encontrado"
+            console.error(
+                "ERRO: historyCanvas não encontrado"
             );
 
             return;
@@ -64,11 +71,23 @@ class HistoryReader {
 
 
 
+        console.log(
+            "Canvas encontrado:",
+            this.canvas
+        );
+
+
+
         document.addEventListener(
 
             "frameCaptured",
 
             (event)=>{
+
+
+                console.log(
+                    "Frame recebido pelo HistoryReader"
+                );
 
 
                 this.process(
@@ -83,11 +102,12 @@ class HistoryReader {
 
 
         console.log(
-            "HistoryReader iniciado"
+            "HistoryReader iniciado com sucesso"
         );
 
 
     }
+
 
 
 
@@ -99,9 +119,23 @@ class HistoryReader {
 
         if(!frame){
 
+            console.error(
+                "Frame vazio"
+            );
+
             return;
 
         }
+
+
+
+        console.log(
+            "Frame tamanho:",
+            frame.width,
+            frame.height
+        );
+
+
 
 
 
@@ -130,6 +164,7 @@ class HistoryReader {
 
 
 
+
         tempCtx.putImageData(
 
             frame,
@@ -146,6 +181,15 @@ class HistoryReader {
 
         const r =
             this.region;
+
+
+
+
+        console.log(
+            "Recortando região:",
+            r
+        );
+
 
 
 
@@ -180,7 +224,6 @@ class HistoryReader {
 
         this.ctx.drawImage(
 
-
             tempCanvas,
 
 
@@ -203,16 +246,19 @@ class HistoryReader {
 
             r.height
 
-
         );
 
 
 
 
-        /*
-         * Avisamos o OCR que
-         * o histórico foi atualizado
-         */
+
+        console.log(
+            "Histórico desenhado no canvas"
+        );
+
+
+
+
 
         document.dispatchEvent(
 
@@ -220,6 +266,12 @@ class HistoryReader {
                 "historicoAtualizado"
             )
 
+        );
+
+
+
+        console.log(
+            "Evento enviado para OCR"
         );
 
 
@@ -232,8 +284,10 @@ class HistoryReader {
 
 
 
+
 window.HistoryReader =
     HistoryReader;
+
 
 
 
@@ -244,9 +298,7 @@ document.addEventListener(
 
     ()=>{
 
-
         HistoryReader.init();
-
 
     }
 
