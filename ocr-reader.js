@@ -1,37 +1,28 @@
 /**
  * ocr-reader.js
- * Aviator Vision AI
- *
- * Lê o histórico capturado
- * e extrai multiplicadores.
+ * Leitura do histórico do Aviator
  */
-
 
 class OCRReader {
 
-
     static canvas = null;
-
     static trabalhando = false;
 
 
-    static init(){
+    static init() {
+
+        this.canvas = document.getElementById(
+            "historyCanvas"
+        );
 
 
-        this.canvas =
-            document.getElementById(
-                "historyCanvas"
-            );
-
-
-        if(!this.canvas){
+        if (!this.canvas) {
 
             console.log(
-                "OCR: canvas não encontrado"
+                "OCR: historyCanvas não encontrado"
             );
 
             return;
-
         }
 
 
@@ -40,63 +31,58 @@ class OCRReader {
         );
 
 
-        // Faz uma leitura a cada 3 segundos
+        document.addEventListener(
+            "historicoAtualizado",
+            () => {
 
-       document.addEventListener(
+                this.read();
 
-    "historicoAtualizado",
-
-    ()=>{
-
-        this.read();
+            }
+        );
 
     }
 
-);
 
 
-    static async read(){
+    static async read() {
 
 
-        if(this.trabalhando)
+        if (this.trabalhando) {
             return;
+        }
 
 
         this.trabalhando = true;
 
 
-
-        try{
+        try {
 
 
             const resultado =
+                await Tesseract.recognize(
 
-            await Tesseract.recognize(
+                    this.canvas,
 
-                this.canvas,
+                    "eng",
 
-                "eng",
+                    {
 
-                {
+                        logger: mensagem => {
 
-                    logger: m => {
+                            if (mensagem.status) {
 
-                        if(m.status){
+                                console.log(
+                                    "OCR:",
+                                    mensagem.status
+                                );
 
-                            console.log(
-                                "OCR:",
-                                m.status,
-                                m.progress
-                            );
+                            }
 
                         }
 
                     }
 
-                }
-
-
-            );
+                );
 
 
 
@@ -112,113 +98,71 @@ class OCRReader {
 
 
 
-            const multiplicadores =
-
-                this.extract(
-                    texto
-                );
+            const valores =
+                this.extract(texto);
 
 
 
-            if(
-                multiplicadores.length
-            ){
+            if (valores.length) {
 
                 console.log(
-                    "Rodadas encontradas:",
-                    multiplicadores
-                );
-
-
-                document.dispatchEvent(
-
-                    new CustomEvent(
-
-                        "historicoDetectado",
-
-                        {
-
-                            detail:
-                                multiplicadores
-
-                        }
-
-                    )
-
+                    "Multiplicadores encontrados:",
+                    valores
                 );
 
             }
 
 
-        }
 
-        catch(error){
+        } catch (erro) {
+
 
             console.error(
                 "Erro OCR:",
-                error
+                erro
             );
+
 
         }
 
 
-
-        this.trabalhando=false;
-
+        this.trabalhando = false;
 
     }
 
 
 
 
-
-    static extract(texto){
-
-
-        /*
-          Procura:
-
-          1.00x
-          2.99x
-          15.50x
-
-        */
+    static extract(texto) {
 
 
         const encontrados =
-
-        texto.match(
-
-            /\d+\.\d+\s*x/gi
-
-        );
-
-
-
-        if(!encontrados)
-
-            return [];
-
-
-
-        return encontrados.map(valor=>{
-
-
-            return parseFloat(
-
-                valor
-
-                .replace(
-                    "x",
-                    ""
-                )
-
+            texto.match(
+                /\d+\.\d+\s*x/gi
             );
 
 
-        });
+        if (!encontrados) {
+
+            return [];
+
+        }
 
 
+
+        return encontrados.map(
+
+            valor =>
+
+                parseFloat(
+                    valor
+                    .replace(
+                        /x/gi,
+                        ""
+                    )
+                )
+
+        );
 
     }
 
@@ -227,20 +171,15 @@ class OCRReader {
 
 
 
-
-window.OCRReader =
-    OCRReader;
+window.OCRReader = OCRReader;
 
 
 
 document.addEventListener(
-
     "DOMContentLoaded",
-
-    ()=>{
+    () => {
 
         OCRReader.init();
 
     }
-
 );
