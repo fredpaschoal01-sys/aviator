@@ -4,7 +4,7 @@
  *
  * Captura a área do Histórico da Ronda.
  * Prepara imagem para OCR.
- * Versão com diagnóstico.
+ * Versão calibrada para captura 730x312.
  */
 
 
@@ -17,21 +17,24 @@ class HistoryReader {
 
 
     /*
-     * Região inicial para tela 1366x768
-     * Ajustaremos depois se necessário.
+     * Região inicial ajustada
+     * para captura reduzida 730x312
+     *
+     * Vamos calibrar depois olhando o canvas.
      */
 
     static region = {
 
-        x: 1050,
+        x: 500,
 
-        y: 120,
+        y: 40,
 
-        width: 250,
+        width: 200,
 
-        height: 450
+        height: 200
 
     };
+
 
 
 
@@ -78,6 +81,7 @@ class HistoryReader {
 
 
 
+
         document.addEventListener(
 
             "frameCaptured",
@@ -88,6 +92,7 @@ class HistoryReader {
                 console.log(
                     "Frame recebido pelo HistoryReader"
                 );
+
 
 
                 this.process(
@@ -113,6 +118,9 @@ class HistoryReader {
 
 
 
+
+
+
     static process(frame){
 
 
@@ -129,17 +137,26 @@ class HistoryReader {
 
 
 
+
+
         console.log(
+
             "Frame tamanho:",
+
             frame.width,
+
             frame.height
+
         );
 
 
 
 
 
+
+
         const tempCanvas =
+
             document.createElement(
                 "canvas"
             );
@@ -147,9 +164,11 @@ class HistoryReader {
 
 
         const tempCtx =
+
             tempCanvas.getContext(
                 "2d"
             );
+
 
 
 
@@ -160,6 +179,7 @@ class HistoryReader {
 
         tempCanvas.height =
             frame.height;
+
 
 
 
@@ -179,28 +199,68 @@ class HistoryReader {
 
 
 
-        const r =
+
+
+        let r =
+
             this.region;
 
 
 
 
+
+
+        /*
+         * Proteção contra corte fora da imagem
+         */
+
+
+        if(r.x + r.width > frame.width){
+
+            r.width =
+                frame.width - r.x;
+
+        }
+
+
+
+        if(r.y + r.height > frame.height){
+
+            r.height =
+                frame.height - r.y;
+
+        }
+
+
+
+
+
         console.log(
+
             "Recortando região:",
+
             r
+
         );
 
 
 
 
 
+
+
+
         this.canvas.width =
+
             r.width;
 
 
 
         this.canvas.height =
+
             r.height;
+
+
 
 
 
@@ -217,6 +277,9 @@ class HistoryReader {
             r.height
 
         );
+
+
+
 
 
 
@@ -246,15 +309,23 @@ class HistoryReader {
 
             r.height
 
+
         );
+
+
 
 
 
 
 
         console.log(
+
             "Histórico desenhado no canvas"
+
         );
+
+
+
 
 
 
@@ -263,15 +334,21 @@ class HistoryReader {
         document.dispatchEvent(
 
             new Event(
+
                 "historicoAtualizado"
+
             )
 
         );
 
 
 
+
+
         console.log(
+
             "Evento enviado para OCR"
+
         );
 
 
@@ -285,8 +362,14 @@ class HistoryReader {
 
 
 
+
+
+
 window.HistoryReader =
+
     HistoryReader;
+
+
 
 
 
@@ -298,7 +381,9 @@ document.addEventListener(
 
     ()=>{
 
+
         HistoryReader.init();
+
 
     }
 
