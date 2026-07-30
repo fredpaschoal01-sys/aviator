@@ -42,16 +42,17 @@ class OCRReader {
 
         // Faz uma leitura a cada 3 segundos
 
-        setInterval(()=>{
+       document.addEventListener(
 
-            this.read();
+    "historicoAtualizado",
 
-        },3000);
+    ()=>{
 
-
+        this.read();
 
     }
 
+);
 
 
     static async read(){
