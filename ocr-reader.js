@@ -1,6 +1,9 @@
 /**
  * ocr-reader.js
- * Leitura do histórico do Aviator
+ * Aviator Vision AI
+ *
+ * Lê os multiplicadores do histórico
+ * após a imagem ser tratada pelo vision.js.
  */
 
 class OCRReader {
@@ -8,36 +11,37 @@ class OCRReader {
     static canvas = null;
     static trabalhando = false;
 
-
     static init() {
 
-        this.canvas = document.getElementById(
-            "historyCanvas"
-        );
-
+        this.canvas =
+            document.getElementById("historyCanvas");
 
         if (!this.canvas) {
 
-            console.log(
-                "OCR: historyCanvas não encontrado"
+            console.error(
+                "OCR: historyCanvas não encontrado."
             );
 
             return;
+
         }
 
-
         console.log(
-            "OCR Reader iniciado"
+            "OCR Reader iniciado."
         );
 
+        // Agora espera o Vision terminar
 
         document.addEventListener(
-            "historicoAtualizado",
+
+            "visionReady",
+
             () => {
 
                 this.read();
 
             }
+
         );
 
     }
@@ -46,17 +50,15 @@ class OCRReader {
 
     static async read() {
 
-
         if (this.trabalhando) {
-            return;
-        }
 
+            return;
+
+        }
 
         this.trabalhando = true;
 
-
         try {
-
 
             const resultado =
                 await Tesseract.recognize(
@@ -67,13 +69,13 @@ class OCRReader {
 
                     {
 
-                        logger: mensagem => {
+                        logger: info => {
 
-                            if (mensagem.status) {
+                            if (info.status) {
 
                                 console.log(
                                     "OCR:",
-                                    mensagem.status
+                                    info.status
                                 );
 
                             }
@@ -92,8 +94,17 @@ class OCRReader {
 
 
             console.log(
-                "Texto detectado:",
-                texto
+                "=================================="
+            );
+
+            console.log(
+                "OCR TEXTO BRUTO:"
+            );
+
+            console.log(texto);
+
+            console.log(
+                "=================================="
             );
 
 
@@ -103,28 +114,35 @@ class OCRReader {
 
 
 
-            if (valores.length) {
+            if (valores.length > 0) {
 
                 console.log(
-                    "Multiplicadores encontrados:",
-                    valores
+                    "Multiplicadores:"
+                );
+
+                console.table(valores);
+
+            } else {
+
+                console.log(
+                    "Nenhum multiplicador encontrado."
                 );
 
             }
 
-
-
-        } catch (erro) {
-
-
-            console.error(
-                "Erro OCR:",
-                erro
-            );
-
-
         }
 
+        catch (erro) {
+
+            console.error(
+
+                "Erro OCR:",
+
+                erro
+
+            );
+
+        }
 
         this.trabalhando = false;
 
@@ -133,16 +151,55 @@ class OCRReader {
 
 
 
+
+
     static extract(texto) {
+
+        if (!texto) {
+
+            return [];
+
+        }
+
+
+
+        /*
+         * Corrige erros comuns do OCR
+         */
+
+        texto =
+
+            texto
+
+            .replace(/O/g,"0")
+            .replace(/o/g,"0")
+            .replace(/,/g,".")
+            .replace(/\s+/g," ");
+
+
+
+
+        /*
+         * Procura padrões:
+         *
+         * 1.00x
+         * 2.99x
+         * 37.23x
+         */
+
+        const regex =
+
+            /\d+\.\d+\s*x/gi;
+
 
 
         const encontrados =
-            texto.match(
-                /\d+\.\d+\s*x/gi
-            );
+
+            texto.match(regex);
 
 
-        if (!encontrados) {
+
+        if(!encontrados){
 
             return [];
 
@@ -152,34 +209,41 @@ class OCRReader {
 
         return encontrados.map(
 
-            valor =>
+            item=>{
 
-                parseFloat(
-                    valor
-                    .replace(
-                        /x/gi,
-                        ""
-                    )
-                )
+                return parseFloat(
+
+                    item
+
+                    .replace(/x/gi,"")
+
+                    .trim()
+
+                );
+
+            }
 
         );
 
     }
 
-
 }
 
 
 
-window.OCRReader = OCRReader;
+window.OCRReader =
+    OCRReader;
 
 
 
 document.addEventListener(
+
     "DOMContentLoaded",
-    () => {
+
+    ()=>{
 
         OCRReader.init();
 
     }
+
 );
