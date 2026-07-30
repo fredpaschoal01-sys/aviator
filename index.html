@@ -161,6 +161,47 @@ Coletando dados...
 </section>
 
 
+  <!-- ============================= -->
+<!-- CAPTURA DE TELA -->
+<!-- ============================= -->
+
+<section class="captura">
+
+    <h2>Captura da Tela do Aviator</h2>
+
+    <div class="captura-botoes">
+
+        <button id="btnIniciarCaptura">
+            ▶ Iniciar Captura
+        </button>
+
+        <button
+            id="btnPararCaptura"
+            disabled>
+
+            ■ Parar Captura
+
+        </button>
+
+    </div>
+
+    <p id="statusCaptura">
+
+        Aguardando autorização...
+
+    </p>
+
+    <video
+        id="screenPreview"
+        autoplay
+        muted
+        playsinline
+        style="display:none">
+    </video>
+
+    <canvas id="screenCanvas"></canvas>
+
+</section>
 
 
 <button id="btnImportar">
